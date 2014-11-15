@@ -47,6 +47,7 @@
 - (NSInteger)appVersion;
 - (NSArray *)plugins;
 - (BOOL)hasPlugin;
+- (BOOL)hasFramework;
 
 
 

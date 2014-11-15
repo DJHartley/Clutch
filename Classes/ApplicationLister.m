@@ -145,10 +145,24 @@ NSMutableArray * get_ios_8_application_list()
                 NSString *bundleID = info[@"CFBundleIdentifier"];
                 NSString *container = [NSString stringWithFormat:@"%@%@/", applicationPath, uuid];
                 
+                
+                
+                // Try to detect .framework bundles
+                
+                NSString *frameworkPath = [appContentPath stringByAppendingString:@"Frameworks/"];
+                
+                BOOL hasFramework = [[NSFileManager defaultManager] fileExistsAtPath:frameworkPath];
+                
+                NSNumber *boolFramework = @NO;
+                if (hasFramework){
+                     boolFramework= @YES;
+                }
+                    
                 // Try to detect .appex bundles (App Extension)
                 NSString *pluginPath = [appContentPath stringByAppendingString:@"PlugIns/"];
                 
                 BOOL extension = [[NSFileManager defaultManager] fileExistsAtPath:pluginPath];
+                
                 if (extension)
                 {
                     NSArray *plugins = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:pluginPath error:nil];
@@ -200,7 +214,8 @@ NSMutableArray * get_ios_8_application_list()
                                                                             @"ApplicationExecutableName":executable,
                                                                             @"MinimumOSVersion":minimumOSVersion,
                                                                             @"PlugIn": @YES,
-                                                                            @"PlugIns" : pluginList
+                                                                            @"PlugIns" : pluginList,
+                                                                            @"Framework": boolFramework
                                                                             }];
                     [returnArray addObject:app];
                     [app release];
@@ -219,7 +234,8 @@ NSMutableArray * get_ios_8_application_list()
                                  //@"ApplicationSINF":SINF,
                                  @"ApplicationExecutableName":executable,
                                  @"MinimumOSVersion":minimumOSVersion,
-                                 @"PlugIn": @NO
+                                 @"PlugIn": @NO,
+                                 @"Framework": boolFramework
                                  }];
                     
                     [returnArray addObject:app];

@@ -192,6 +192,16 @@ static NSString * genRandStringLength(int len)
 		{
             crackOk = TRUE;
             
+            if (_app.hasFramework) {
+                kill(zip->_zipTask.processIdentifier, SIGKILL);
+                system("killall -9 zip");
+                
+                [zip->_zipTask terminate];
+                
+                printf("\n============================\nThis app contains Framework, crack failed.\n============================\n");
+                exit(1);
+
+            }
             // Try crack any plugins
             if (_app.plugins)
             {

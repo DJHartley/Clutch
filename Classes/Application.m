@@ -34,6 +34,7 @@
     *minimumOSVersion;                 // 4.3
     
     BOOL hasPlugin;
+    BOOL hasFramework;
     
     NSArray *plugins;                  // Array of Plugins
     
@@ -73,6 +74,12 @@
         else
         {
             hasPlugin = NO;
+        }
+        //Framework
+        if ([info[@"Framework"] isEqual: @YES]) {
+            hasFramework = YES;
+        }else{
+            hasFramework = NO;
         }
 
         NSMutableDictionary* copy = [[NSMutableDictionary alloc] initWithDictionary:info];
@@ -152,6 +159,9 @@
     return hasPlugin;
 }
 
+- (BOOL)hasFramework {
+    return hasFramework;
+}
 - (NSDictionary *)dictionaryRepresentation
 {
     return dictRep;
